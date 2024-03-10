@@ -9,6 +9,7 @@ mkfifo $RESPONSE_FILE
 
 def handle_request [request: string]: nothing -> nothing {
     log debug $"incoming request: ($request)"
+
     let request = $request | split row "\r\n"
     let headline = $request | first | parse "{http_verb} {path} {protocol_version}" | into record
 
@@ -22,7 +23,6 @@ def handle_request [request: string]: nothing -> nothing {
     }
 
     log debug $"outgoing response: ($response)"
-
     $response | save --force $RESPONSE_FILE
 }
 
