@@ -28,5 +28,9 @@ def handle_request [request: string]: nothing -> nothing {
 
 log info $"listening on port ($PORT)..."
 
-let request = cat $RESPONSE_FILE | nc --listen --close --local-port $PORT
-handle_request $request
+while true {
+    let request = cat $RESPONSE_FILE | nc --listen --close --local-port $PORT
+    handle_request $request
+}
+
+log info $"server on port ($PORT) is now down."
